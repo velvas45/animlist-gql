@@ -125,6 +125,10 @@ export const SectionDetail = styled.div`
     .section__detail-type {
       font-size: 11px;
     }
+
+    h3 {
+      margin: 0 auto;
+    }
   }
 
   @media screen and (max-width: 1024px) {
@@ -255,5 +259,21 @@ export const AddCollectionDiv = styled.div`
   @media screen and (max-width: 768px) {
     font-size: 1rem;
     padding: 0.5rem 1rem;
+  }
+`;
+
+export const TemplateSuccess = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  img {
+    height: 300px;
+  }
+
+  p {
+    font-size: 1.2rem;
   }
 `;

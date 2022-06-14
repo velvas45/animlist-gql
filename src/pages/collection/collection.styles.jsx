@@ -78,6 +78,10 @@ export const TemplateNoData = styled.div`
       border-color: ${color.white_off};
     }
   }
+
+  @media screen and (max-width: 768px) {
+    padding-bottom: 1rem;
+  }
 `;
 
 export const FormTag = styled.form`

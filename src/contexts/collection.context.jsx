@@ -105,12 +105,20 @@ const addMovieToCollection = (
     has: false,
     response: "",
   };
+  let successObj = {
+    set: false,
+    response: "",
+  };
   if (!collectionSelectedItem.name_collection) {
     errorObj = {
       has: true,
       response: "Field collection list tidak boleh kosong!",
     };
-    return { data: collectionItems, error: errorObj };
+    successObj = {
+      set: false,
+      response: "",
+    };
+    return { data: collectionItems, error: errorObj, success: successObj };
   }
   collectionItems.forEach((collectionItem) => {
     if (collectionItem.id_collection === collectionSelectedItem.id_collection) {
@@ -131,17 +139,26 @@ const addMovieToCollection = (
             has: true,
             response: `Movie ini sudah terdapat pada collection ${collectionItem.name_collection}!`,
           };
+          successObj = {
+            set: false,
+            response: "",
+          };
         } else {
           my_items.push(movieItem);
           errorObj = {
             has: false,
             response: "",
           };
+
+          successObj = {
+            set: true,
+            response: "success",
+          };
         }
       }
     }
   });
-  return { data: collectionItems, error: errorObj };
+  return { data: collectionItems, error: errorObj, success: successObj };
 };
 
 const removeMovieFromCollection = (
@@ -190,6 +207,11 @@ export const CollectionProvider = ({ children }) => {
     response: "",
   });
 
+  const [successObj, setSuccessObj] = useState({
+    set: false,
+    response: "",
+  });
+
   const addCollection = (collectionToAdd) => {
     const { data, error } = addNewCollection(collectionItems, collectionToAdd);
     setCollectionItems(data);
@@ -209,11 +231,12 @@ export const CollectionProvider = ({ children }) => {
     window.localStorage.setItem("collection_user", JSON.stringify(data));
   };
   const addedMovieToCollection = ({ collectionItemSelected, movieItem }) => {
-    const { data, error } = addMovieToCollection(
+    const { data, error, success } = addMovieToCollection(
       collectionItems,
       collectionItemSelected,
       movieItem
     );
+    setSuccessObj(success);
     setCollectionItems(data);
     setErrorObj(error);
     window.localStorage.setItem("collection_user", JSON.stringify(data));
@@ -237,6 +260,7 @@ export const CollectionProvider = ({ children }) => {
     addedMovieToCollection,
     removeMovieCollection,
     errorObj,
+    successObj,
     setErrorObj,
   };
 

@@ -15,10 +15,10 @@ export const TheCard = styled.div`
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   padding: 0.5rem 1.5rem;
-  padding-bottom: 0px;
-
+  padding-bottom: 1rem;
   @media screen and (max-width: 768px) {
     text-align: center;
     min-width: 350px;
+    padding-bottom: 0px;
   }
 `;

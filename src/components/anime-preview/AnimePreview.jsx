@@ -6,6 +6,7 @@ import Select from "react-select";
 import { gql, useQuery } from "@apollo/client";
 import Spinner from "components/spinner/Spinner";
 import Modal from "components/modal/Modal";
+import SuccessIcon from "assets/completed-icons.svg";
 import {
   FormTag,
   InputTag,
@@ -20,6 +21,7 @@ import {
   SectionRating,
   SectionWrapper,
   AddCollectionDiv,
+  TemplateSuccess,
 } from "./anime-preview.styles";
 import NoData from "assets/no-data.svg";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -82,6 +84,7 @@ const AnimePreview = () => {
   const {
     collectionItems,
     errorObj,
+    successObj,
     addCollection,
     addedMovieToCollection,
     setErrorObj,
@@ -99,6 +102,7 @@ const AnimePreview = () => {
   const [showModal, setShowModal] = useState({
     addCollection: false,
     addMovie: false,
+    success: false,
   });
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [collectionName, setCollectionName] = useState("");
@@ -126,11 +130,13 @@ const AnimePreview = () => {
       setShowModal(() => ({
         addCollection: false,
         addMovie: false,
+        success: false,
       }));
     } else {
       setShowModal(() => ({
         addCollection: false,
         addMovie: true,
+        success: false,
       }));
     }
 
@@ -142,6 +148,7 @@ const AnimePreview = () => {
     setShowModal(() => ({
       addCollection: false,
       addMovie: false,
+      success: false,
     }));
   };
   const onOpenModal = (type) => {
@@ -149,11 +156,13 @@ const AnimePreview = () => {
       setShowModal(() => ({
         addCollection: true,
         addMovie: false,
+        success: false,
       }));
     } else {
       setShowModal(() => ({
         addCollection: false,
         addMovie: true,
+        success: false,
       }));
     }
   };
@@ -173,8 +182,11 @@ const AnimePreview = () => {
     setShowModal(() => ({
       addCollection: false,
       addMovie: false,
+      success: false,
     }));
     setSelectedCollection(null);
+
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
   const onAlertClose = () => {
     setErrorObj({
@@ -204,6 +216,16 @@ const AnimePreview = () => {
   }, [collectionItems]);
 
   useEffect(() => {
+    if (successObj.set) {
+      setShowModal(() => ({
+        addCollection: false,
+        addMovie: false,
+        success: true,
+      }));
+    }
+  }, [successObj]);
+
+  useEffect(() => {
     setVisibleAlert(errorObj.has);
   }, [errorObj]);
 
@@ -212,6 +234,11 @@ const AnimePreview = () => {
       has: false,
       response: "",
     });
+    setShowModal(() => ({
+      addCollection: false,
+      addMovie: false,
+      success: false,
+    }));
   }, []);
 
   return (
@@ -355,6 +382,20 @@ const AnimePreview = () => {
           />
           <LabelTag htmlFor="add_collection">Name</LabelTag>
         </FormTag>
+      </Modal>
+
+      {/* create Collection */}
+      <Modal
+        show={showModal.success}
+        title="Success Added Movie"
+        onClose={onModalClose}
+        onSubmit={onSubmit}
+        btnTitle="Add"
+      >
+        <TemplateSuccess>
+          <img src={SuccessIcon} alt="success-icon" />
+          <p>Your movie now added to your collection.</p>
+        </TemplateSuccess>
       </Modal>
     </>
   );
