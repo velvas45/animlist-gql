@@ -12,9 +12,13 @@
     "graphql": "^16.5.0",
     "jest": "^28.1.1",
     "react": "^18.1.0",
+    "react-avatar": "^5.0.1",
     "react-dom": "^18.1.0",
+    "react-icons": "^4.4.0",
+    "react-lazyload": "^3.2.0",
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
+    "react-select": "^5.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -40,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@emotion/babel-plugin": "^11.9.2"
   }
 }
